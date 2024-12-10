@@ -1,0 +1,36 @@
+---
+title: "Reproducible documents"
+author: "Katrine Boedkergaard Nielsen"
+format: html
+---
+
+## Header 1
+
+```{r setup}
+# New code chunk
+#| message: false
+#| warning: false
+library(tidyverse)
+library(NHANES)
+nhanes_small <- select(NHANES, Age, Gender, BMI, Diabetes,
+                       PhysActive, BPSysAve, BPDiaAve, Education)
+```
+
+```{r}
+nhanes_small
+```
+
+## Table of results
+```{r}
+nhanes_small %>%
+  filter(!is.na(Diabetes)) %>%
+  group_by(Diabetes, Education) %>%
+  summarise(
+    mean_age = mean(Age, na.rm = TRUE),
+    mean_bmi = mean(BMI, na.rm = TRUE)
+  ) %>%
+  ungroup()
+```
+
+
+
