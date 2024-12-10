@@ -21,3 +21,5 @@ Suggests:
     gitcreds,
     styler,
     usethis
+Depends: 
+    tidyverse
