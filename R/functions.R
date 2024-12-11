@@ -1,3 +1,8 @@
+#' descriptive stats
+#'
+#' @param data
+#'
+#' @return
 descriptive_stats <- function(data) {
     data |>
         dplyr::group_by(metabolite) |>

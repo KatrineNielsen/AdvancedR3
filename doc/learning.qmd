@@ -16,27 +16,8 @@ lipidomics <- read_csv(here::here("data/lipidomics.csv"))
 ## Basic statisticss
 
 ```{r}
-#' descriptive stats
-#'
-#' @param data 
-#'
-#' @return
-
 descriptive_stats(data = lipidomics)
 
-lipidomics |>
-  group_by(metabolite) |>
-  summarize(across(
-    value,
-    list(
-      mean = mean,
-      sd = sd
-    )
-  )) |>
-  mutate(across( # across: Given these columns (.x is a placeholder for the column), do this action
-    where(is.numeric),
-    ~ round(.x, digits = 1)
-  ))
 ```
 
 ## poorly formatted markdown
