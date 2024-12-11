@@ -1,0 +1,26 @@
+---
+title: "Reproducible documents"
+author: "Katrine Boedkergaard Nielsen"
+format: html
+---
+
+## Header 1
+
+```{r setup}
+#| include: false
+library(tidyverse)
+source(here::here("R/functions.R"))
+lipidomics <- read_csv(here::here("data/lipidomics.csv"))
+```
+
+## Basic statisticss
+
+```{r}
+descriptive_stats(data = lipidomics)
+```
+
+## Figure outputs
+
+```{r}
+plot_distributions(lipidomics)
+```

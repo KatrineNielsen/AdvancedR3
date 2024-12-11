@@ -4,27 +4,22 @@ author: "Katrine Boedkergaard Nielsen"
 format: html
 ---
 
-## Header 1
-
 ```{r setup}
-#| include: false
+# to remove warnings add the first line
+#| include: FALSE 
+targets::tar_config_set(store = here::here("_targets"))
 library(tidyverse)
+library(targets)
 source(here::here("R/functions.R"))
-lipidomics <- read_csv(here::here("data/lipidomics.csv"))
+lipidomics <- tar_read(lipidomics) # referring to the name from the "_targets" R script
 ```
 
-## Basic statisticss
+## Results
 
 ```{r}
-descriptive_stats(data = lipidomics)
+tar_read(df_stats_by_metabolite)
 ```
 
-## Figure outputs
-
 ```{r}
-ggplot(lipidomics, aes(x = value)) +
-  geom_histogram() +
-  facet_wrap(vars(metabolite), scales = "free")
-
-plot_distributions(lipidomics)
+tar_read(fig_metabolite_distribution)
 ```

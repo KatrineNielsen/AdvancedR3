@@ -5,7 +5,8 @@
 
 # Load packages required to define the pipeline:
 library(targets)
-# library(tarchetypes) # Load other packages as needed.
+library(tarchetypes) # Load other packages as needed.
+library(quarto)
 
 # Set target options:
 tar_option_set(
@@ -50,23 +51,33 @@ tar_source()
 
 # Replace the target list below with your own:
 list(
-    # 0. But the actual first step is to keep track of our file
-    tar_target(
-        name = file,
-        command = "data/lipidomics.csv",
-        format = "file"
-    ),
-    # 1. First step of our pipeline is to read the data
-    tar_target(
-        name = lipidomics,
-        #command = readr::read_csv(here::here("data/lipidomics.csv")) # old version before adding step 0
-        command = readr::read_csv(file, show_col_types = FALSE)
-        # Since added step 0 refer to the file name defined in that step instead
-    ),
-    # 2. The next step of our pipeline is to use our descriptive statistics function
-    tar_target(
-        name = df_stats_by_metabolite,
-        command = descriptive_stats(lipidomics) # Note that the name "lipidomics" here refers to the name
-        # created in the previous step of the pipeline and not the name used in the function in learning.qmd
-    )
+  # 0. But the actual first step is to keep track of our file
+  tar_target(
+    name = file,
+    command = "data/lipidomics.csv",
+    format = "file"
+  ),
+  # 1. First step of our pipeline is to read the data
+  tar_target(
+    name = lipidomics,
+    # command = readr::read_csv(here::here("data/lipidomics.csv")) # old version before adding step 0
+    command = readr::read_csv(file, show_col_types = FALSE)
+    # Since added step 0 refer to the file name defined in that step instead
+  ),
+  # 2. The next step of our pipeline is to use our descriptive statistics function
+  tar_target(
+    name = df_stats_by_metabolite,
+    command = descriptive_stats(lipidomics) # Note that the name "lipidomics" here refers to the name
+    # created in the previous step of the pipeline and not the name used in the function in learning.qmd
+  ),
+  # 3. Add histograms to pipeline
+  tar_target(
+    name = fig_metabolite_distribution,
+    command = plot_distributions(lipidomics)
+  ),
+  # Add a new pipeline step
+  tar_quarto(
+      name = quarto_doc,
+      path = "doc/learning.qmd"
+  )
 )
