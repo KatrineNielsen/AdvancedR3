@@ -17,10 +17,14 @@ lipidomics <- read_csv(here::here("data/lipidomics.csv"))
 
 ```{r}
 descriptive_stats(data = lipidomics)
-
 ```
 
-## poorly formatted markdown
+## Figure outputs
 
--   List item 1
--   List item 2
+```{r}
+ggplot(lipidomics, aes(x = value)) +
+  geom_histogram() +
+  facet_wrap(vars(metabolite), scales = "free")
+
+plot_distributions(lipidomics)
+```

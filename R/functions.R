@@ -1,4 +1,4 @@
-#' descriptive stats
+#' Descriptive statistics
 #'
 #' @param data
 #'
@@ -17,4 +17,15 @@ descriptive_stats <- function(data) {
             where(is.numeric),
             ~ round(.x, digits = 1)
         ))
+}
+
+#' Plot the distributions
+#'
+#' @param data
+#'
+#' @return
+plot_distributions <- function(data) {
+    ggplot2::ggplot(data, aes(x = value)) +
+        geom_histogram() +
+        facet_wrap(vars(metabolite), scales = "free")
 }
